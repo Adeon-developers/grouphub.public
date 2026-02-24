@@ -5,14 +5,11 @@ window.addEventListener("load", async () => {
     const shouldInject =
         (path.startsWith("/orgs/") && path.includes("/repositories")) ||
         searchParams.get("tab") === "repositories";
-
     if (!shouldInject) return;
-
     const target =
         document.getElementById("user-repositories-list") ||
-        document.querySelector(
-            '[class^="RepositoriesPage-module__repositoriesListWrapper"]'
-        );
+        document.querySelector('[class^="RepositoriesPage-module__repositoriesListWrapper"]')||
+        document.querySelector('[class^="OrgReposListContent-module__repositoriesListWrapper"]');
     if (!target || document.getElementById("my-box")) return;
 
     const userOrOrg = getUserOrOrgFromPath();

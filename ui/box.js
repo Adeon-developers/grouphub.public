@@ -1,7 +1,7 @@
 // ui/box.js
 
 function buildGroupBox(config, userOrOrg) {
-    const label = "Groups";
+    const label = "Skupiny";
 
     const box = document.createElement("div");
     box.id = "my-box";
