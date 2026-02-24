@@ -1,5 +1,3 @@
-// ui/box.js
-
 function buildGroupBox(config, userOrOrg) {
     const label = "Skupiny";
 
@@ -8,7 +6,6 @@ function buildGroupBox(config, userOrOrg) {
     box.style.cssText = `
         background-color: #161B22;
         color: #F1F6FB;
-        padding: 0px;
         margin-bottom: 16px;
         margin-left: 8px;
         border-radius: 8px;
@@ -16,7 +13,7 @@ function buildGroupBox(config, userOrOrg) {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     `;
 
-    if (!config) {
+    if (!config || !config.group) {
         box.textContent = `📦 ${label} — 'github.com/${userOrOrg}/grouphub.public/config.json' missing`;
         return box;
     }
@@ -26,48 +23,58 @@ function buildGroupBox(config, userOrOrg) {
     header.innerHTML = `<strong style="font-size: 16px">📦 ${config.group.length} ${label}</strong>`;
     box.appendChild(header);
 
-    for (const group of config.group) {
-        const section = document.createElement("div");
-        section.style.cssText = `
-            padding: 0px;
-            background-color: #0E1116;
-            margin: 0px;
-        `;
+    config.group.forEach(group => {
+        box.appendChild(createGroupRecursive(group, userOrOrg, 0));
+    });
 
-        const line = document.createElement("hr");
-        line.style.cssText = `
-            border: none;
-            border-top: 1px solid #30353C;
-            margin: 0px;
-            padding: 0px;
-        `;
-        section.appendChild(line);
+    return box;
+}
 
-        const groupLabel = document.createElement("div");
-        groupLabel.style.cssText = `
-            font-weight: 600;
-            cursor: pointer;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-        `;
-        groupLabel.innerHTML = `<b>[▸] ${group.name}</b>`;
-        section.appendChild(groupLabel);
 
-        const repoContainer = document.createElement("div");
-        repoContainer.style.cssText = `
-            display: none;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin: 0px;
-        `;
+function createGroupRecursive(group, userOrOrg, level) {
+    const section = document.createElement("div");
 
-        groupLabel.addEventListener("click", () => {
-            const isHidden = repoContainer.style.display === "none";
-            repoContainer.style.display = isHidden ? "flex" : "none";
-            groupLabel.innerHTML = `<b>${isHidden ? "[▾]" : "[▸]"} ${group.name}</b>`;
-        });
+    const line = document.createElement("hr");
+    line.style.cssText = `
+        border: none;
+        border-top: 1px solid #30353C;
+        margin: 0px;
+    `;
+    section.appendChild(line);
 
+    const paddingLeft = 8 + level * 14;
+
+    const groupLabel = document.createElement("div");
+    groupLabel.style.cssText = `
+        font-weight: 600;
+        cursor: pointer;
+        padding: 8px;
+        padding-left: ${paddingLeft}px;
+        display: flex;
+        align-items: center;
+    `;
+    groupLabel.innerHTML = `<b>[▸] ${group.name}</b>`;
+    section.appendChild(groupLabel);
+    const container = document.createElement("div");
+    container.style.display = "none";
+    const repoContainer = document.createElement("div");
+    repoContainer.style.cssText = `
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    `;
+    const subgroupContainer = document.createElement("div");
+    subgroupContainer.style.display = "block";
+
+
+    groupLabel.addEventListener("click", () => {
+        const isHidden = container.style.display === "none";
+        container.style.display = isHidden ? "block" : "none";
+        groupLabel.innerHTML = `<b>${isHidden ? "[▾]" : "[▸]"} ${group.name}</b>`;
+    });
+
+
+    if (group.repos) {
         group.repos.sort().forEach(repoName => {
             const repoItem = document.createElement("div");
             repoItem.style.cssText = `
@@ -90,10 +97,20 @@ function buildGroupBox(config, userOrOrg) {
 
             repoContainer.appendChild(repoItem);
         });
-
-        section.appendChild(repoContainer);
-        box.appendChild(section);
     }
 
-    return box;
+    if (group.group) {
+        group.group.forEach(subGroup => {
+            subgroupContainer.appendChild(
+                createGroupRecursive(subGroup, userOrOrg, level + 1)
+            );
+        });
+    }
+
+
+    container.appendChild(repoContainer);
+    container.appendChild(subgroupContainer);
+    section.appendChild(container);
+
+    return section;
 }
