@@ -2,7 +2,7 @@
   "group": [
     {
       "name": "Web",
-      "repos": ["adeon-web-konfigurator"]
+      "repos": ["adeon-web-konfigurator"],
       "group": [
         {
           "name": "WDM",
@@ -16,6 +16,7 @@
    }
   ]
 }
+
 
 
 
