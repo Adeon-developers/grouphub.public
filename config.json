@@ -1,21 +1,27 @@
 {
   "group": [
     {
-      "name": "Web",
-      "repos": ["adeon-web-konfigurator"],
+      "name": "Tomáš Hašpica",
+      "repos": [],
       "group": [
         {
-          "name": "WDM",
-          "repos": ["adeon-catalog"]
+          "name": "Inventor",
+          "repos": ["Rychle-pohledy", "Rychle-pohledy-.NET","QR-generator","QR-generator-.NET","Kontrola-BOM","Kontrola-BOM-.NET","Promitnut-geometrie","promitnut-geometrie-.NET","Generator-Pole","Generator-Pole-.NET"]
+        },
+        {
+          "name": "Web",
+          "repos": ["adeon-catalog", "adeon-web-konfigurator"]
         }
       ]
     },
     {
-      "name": "Petr&Petr",
+      "name": "Peter Meduna",
       "repos": ["CommonFunctions"]
    }
   ]
 }
+
+
 
 
 
