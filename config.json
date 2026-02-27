@@ -10,7 +10,7 @@
         },
         {
           "name": "Desktop Apps",
-          "repos": ["PDF-Tisk", "InnovaMont-PDF-Tisk"]
+          "repos": ["PDF-Tisk", "InnovaMont-PDF-Tisk","Desktop-model-viewer"]
         },
         {
           "name": "Web",
@@ -24,3 +24,9 @@
     }
   ]
 }
+
+
+
+
+
+
