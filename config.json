@@ -10,7 +10,7 @@
         },
         {
           "name": "Desktop Apps",
-          "repos": ["PDF-Tisk", "InnovaMont-PDF-Tisk","Desktop-model-viewer"]
+          "repos": ["PDF-Tisk", "InnovaMont-PDF-Tisk","Desktop-model-viewer","AdeonSigningApp","AdeonSigningAppMonitor"]
         },
         {
           "name": "Web",
@@ -24,6 +24,7 @@
     }
   ]
 }
+
 
 
 
